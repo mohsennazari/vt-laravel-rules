@@ -1,0 +1,26 @@
+# Logs and databases
+######################
+*.log
+
+# generated files
+######################
+.DS_Store*
+ehthumbs.db
+Icon?
+Thumbs.db
+.phpunit.result.cache
+
+# Vim
+*~
+*.swp
+*.swo
+
+# Don't include vendors directory
+/vendor
+
+# IDE files
+/.idea
+/.vscode
+
+# Local config
+phpunit.xml
