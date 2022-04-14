@@ -9,12 +9,14 @@ class Domain extends BaseRule
     /**
      * @var string - Scanner class
      */
-    protected $scannerClass = \Monaz\VirusTotal\Domain::class;
+    protected string $scannerClass = \Monaz\VirusTotal\Domain::class;
 
     /**
      * Validate if the passed value is string.
      *
      * @param string $value
+     * @return null
+     * @throws \InvalidArgumentException
      */
     public function validate($value)
     {
@@ -28,7 +30,7 @@ class Domain extends BaseRule
      *
      * @return string
      */
-    public function message()
+    public function message(): string
     {
         return __('virusTotal::messages.malicious.domain');
     }

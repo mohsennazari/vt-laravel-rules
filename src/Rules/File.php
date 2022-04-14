@@ -10,12 +10,14 @@ class File extends BaseRule
     /**
      * @var string - Scanner class
      */
-    protected $scannerClass = \Monaz\VirusTotal\File::class;
+    protected string $scannerClass = \Monaz\VirusTotal\File::class;
 
     /**
      * Validate if the passed value is an uploaded file.
      *
      * @param UploadedFile $value
+     * @return null
+     * @throws \InvalidArgumentException
      */
     public function validate($value)
     {
@@ -39,7 +41,7 @@ class File extends BaseRule
      *
      * @return string
      */
-    public function message()
+    public function message(): string
     {
         return __('virusTotal::messages.malicious.file');
     }

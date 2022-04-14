@@ -11,13 +11,16 @@ abstract class BaseRule implements Rule
     /**
      * @var string - Virus Total API endpoint prefix
      */
-    protected $virusTotalApiKey;
+    protected string $virusTotalApiKey;
 
     /**
      * @var string - Scanner class
      */
-    protected $scannerClass;
+    protected string $scannerClass;
 
+    /**
+     * @var mixed Scanner instance
+     */
     protected $scanner;
 
     /**
@@ -43,6 +46,11 @@ abstract class BaseRule implements Rule
         return $this;
     }
 
+    /**
+     * Return the rule scanner.
+     *
+     * @return mixed
+     */
     public function getScanner()
     {
         return $this->scanner;
@@ -50,13 +58,15 @@ abstract class BaseRule implements Rule
 
     /**
      * Determine if the validation rule passes.
+     * We use a try catch block to accept all exceptions since we don't want
+     * to block user request if the rule itself fails checking.
      *
      * @param string $attribute
      * @param UploadedFile|string $value
      *
      * @return bool
      */
-    public function passes($attribute, $value)
+    public function passes($attribute, $value): bool
     {
         $this->validate($value);
 
@@ -70,10 +80,16 @@ abstract class BaseRule implements Rule
         } catch(\Exception $e) {
             Log::error('LaravelVirusTotal:'.$e->getMessage());
         }
+
         return true;
     }
 
-    protected function getResult($value)
+    /**
+     * Get result from scanner.
+     *
+     * @return array
+     */
+    protected function getResult($value): array
     {
         $processedValue = $this->processValue($value);
 
@@ -84,6 +100,8 @@ abstract class BaseRule implements Rule
      * Validate if the passed value based on the checker.
      *
      * @param UploadedFile|string $value
+     * @return null
+     * @throws \InvalidArgumentException
      */
     abstract public function validate($value);
 
@@ -102,5 +120,5 @@ abstract class BaseRule implements Rule
      *
      * @return string
      */
-    abstract public function message();
+    abstract public function message(): string;
 }
